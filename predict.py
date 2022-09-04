@@ -1,5 +1,4 @@
 # USAGE
-
 # python predict.py --image images/chirp_55.jpg --model output\model.pth
 
 import torchvision.transforms as transforms
