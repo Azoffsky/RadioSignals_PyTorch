@@ -1,5 +1,4 @@
 # USAGE
-
 # python train.py --model output/model.pth --plot output/plot.png
 
 import matplotlib
