@@ -38,6 +38,7 @@ class Net(Module):
 
         self.fc2 = Linear(in_features=500, out_features=classes)
         self.logSoftmax = LogSoftmax(dim=1)
+        
 
     def forward(self, x):
         x = self.conv1(x)
