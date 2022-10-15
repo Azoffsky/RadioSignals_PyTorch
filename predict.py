@@ -7,23 +7,18 @@ import argparse
 import cv2
 import os
 
-# construct the argument parser
 ap = argparse.ArgumentParser()
 ap.add_argument('-i', '--image', required=True)
 ap.add_argument('-m', '--model', required=True)
 args = vars(ap.parse_args())
 
-# the computation device
 device = ('cuda' if torch.cuda.is_available() else 'cpu')
 
-# list containing all the class labels
 labels = ['chirp', 'm-seq', 'simple']
 
-# initialize the model and load the trained weights
 model = torch.load(args["model"]).to(device)
 model.eval()
 
-# define preprocess transforms
 transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.Resize(64),
@@ -34,16 +29,15 @@ transform = transforms.Compose([
     )
 ])
 
-# read and preprocess the image
 image = cv2.imread(args['image'])
-# get the ground truth class
+
 gt_class = args['image'].split('/')[-1][:6]
-# get the image copy
+
 orig_image = image.copy()
-# convert to RGB format
+
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 image = transform(image)
-# add batch dimension
+
 image = torch.unsqueeze(image, 0)
 with torch.no_grad():
     outputs = model(image.to(device))
